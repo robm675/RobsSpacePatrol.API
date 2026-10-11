@@ -1,0 +1,8 @@
+﻿namespace RobsSpacePatrol.CLI.API;
+
+internal class Program
+{
+    private static void Main(string[] args)
+    {
+    }
+}

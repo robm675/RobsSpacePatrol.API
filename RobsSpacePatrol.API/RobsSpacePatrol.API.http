@@ -1,0 +1,6 @@
+@RobsSpacePatrol.API_HostAddress = https://localhost:5000
+
+GET {{RobsSpacePatrol.API_HostAddress}}/
+Accept: application/json
+
+###
