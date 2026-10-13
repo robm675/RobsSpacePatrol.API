@@ -121,8 +121,6 @@ jobs:
     
           Write-Host "Registered $email successfully."
         }
-
-
     
     - name: Configure CI administrator
       shell: pwsh
@@ -182,9 +180,26 @@ jobs:
             FROM dbo.AspNetUserRoles
             WHERE UserId = @UserId AND RoleId = @RoleId
         )
-            THROW 50002, '
-
-
+            THROW 50002, 'Administrator role assignment failed.', 1;
+    
+        COMMIT TRANSACTION;
+    
+        SELECT u.Email, r.Name AS RoleName
+        FROM dbo.AspNetUserRoles AS ur
+        INNER JOIN dbo.AspNetUsers AS u ON u.Id = ur.UserId
+        INNER JOIN dbo.AspNetRoles AS r ON r.Id = ur.RoleId
+        WHERE u.Id = @UserId AND r.Id = @RoleId;
+        '@
+    
+        $result = Invoke-Sqlcmd `
+          -ConnectionString $connectionString `
+          -Query $sql `
+          -ErrorAction Stop
+    
+        $result | Format-Table -AutoSize
+    
+        Write-Host "CI administrator configured successfully."
+    
 
     
     - name: Test API (independent tests)
