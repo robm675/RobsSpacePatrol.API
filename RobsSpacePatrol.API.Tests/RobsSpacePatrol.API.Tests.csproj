@@ -23,8 +23,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RobsSpacePatrol.API\RobsSpacePatrol.API.csproj" />
-    <PackageReference Include="RobsSpacePatrol.DTO" Version="1.0.5" />
-    <PackageReference Include="RobsSpacePatrol.Library" Version="1.0.12" />
+    <PackageReference Include="RobsSpacePatrol.DTO" Version="1.0.5-ci.38473028551.1" />
+    <PackageReference Include="RobsSpacePatrol.Library" Version="1.0.12-ci.38473028551.1" />
   </ItemGroup>
 
 </Project>
