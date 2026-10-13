@@ -121,6 +121,71 @@ jobs:
     
           Write-Host "Registered $email successfully."
         }
+
+
+    
+    - name: Configure CI administrator
+      shell: pwsh
+      run: |
+        $ErrorActionPreference = "Stop"
+    
+        # Install SQL Server PowerShell support
+        Install-Module SqlServer -Scope CurrentUser -Force
+    
+        $connectionString = "Server=(localdb)\MSSQLLocalDB;Database=RobsSpacePatrol_CI;Integrated Security=True;TrustServerCertificate=True;"
+    
+        $sql = @'
+        SET XACT_ABORT ON;
+    
+        BEGIN TRANSACTION;
+    
+        DECLARE @UserId NVARCHAR(450);
+        DECLARE @RoleId NVARCHAR(450);
+    
+        -- Find the registered administrator account
+        SELECT @UserId = Id
+        FROM dbo.AspNetUsers
+        WHERE NormalizedEmail = 'CI-ADMIN@EXAMPLE.COM';
+    
+        IF @UserId IS NULL
+            THROW 50001, 'CI administrator account not found.', 1;
+    
+        -- Create the Admin role if it does not already exist
+        SELECT @RoleId = Id
+        FROM dbo.AspNetRoles
+        WHERE NormalizedName = 'ADMIN';
+    
+        IF @RoleId IS NULL
+        BEGIN
+            SET @RoleId = CONVERT(NVARCHAR(450), NEWID());
+    
+            INSERT INTO dbo.AspNetRoles
+                (Id, Name, NormalizedName, ConcurrencyStamp)
+            VALUES
+                (@RoleId, 'Admin', 'ADMIN', CONVERT(NVARCHAR(36), NEWID()));
+        END;
+    
+        -- Assign the administrator role
+        IF NOT EXISTS (
+            SELECT 1
+            FROM dbo.AspNetUserRoles
+            WHERE UserId = @UserId AND RoleId = @RoleId
+        )
+        BEGIN
+            INSERT INTO dbo.AspNetUserRoles (UserId, RoleId)
+            VALUES (@UserId, @RoleId);
+        END;
+    
+        -- Verify the assignment
+        IF NOT EXISTS (
+            SELECT 1
+            FROM dbo.AspNetUserRoles
+            WHERE UserId = @UserId AND RoleId = @RoleId
+        )
+            THROW 50002, '
+
+
+
     
     - name: Test API (independent tests)
       run: dotnet run --project RobsSpacePatrol.API.Tests --configuration Release --no-build -- -trait- "Category=Database"
