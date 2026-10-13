@@ -55,8 +55,10 @@ jobs:
           -PassThru `
           -RedirectStandardOutput "$env:RUNNER_TEMP\api-output.log" `
           -RedirectStandardError "$env:RUNNER_TEMP\api-error.log"
-    
+          
+        $env:RUNNER_TRACKING_ID = ""
         Write-Host "Started API process: $($api.Id)"
+        
     
         $ready = $false
     
