@@ -28,5 +28,8 @@ jobs:
     - name: Build
       run: dotnet build RobsSpacePatrol.API.sln --configuration Release --no-restore
       
-    - name: Test
-      run: dotnet test RobsSpacePatrol.API.slnx --configuration Release --no-build -- -trait- "Category=Database"
+    - name: Test API (independent tests)
+      run: dotnet run --project RobsSpacePatrol.API.Tests --configuration Release --no-build -- -trait- "Category=Database"
+
+    - name: Test CLI API Library (independent tests)
+      run: dotnet run --project RobsSpacePatrol.CLI.API.Library.Tests --configuration Release --no-build -- -trait- "Category=Database"
