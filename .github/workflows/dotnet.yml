@@ -50,13 +50,15 @@ jobs:
         ASPNETCORE_URLS: http://127.0.0.1:5067
         ConnectionStrings__DefaultConnection: 'Server=(localdb)\MSSQLLocalDB;Database=RobsSpacePatrol_CI;Integrated Security=True;TrustServerCertificate=True;'
       run: |
+        $env:RUNNER_TRACKING_ID = ""
+
+        
         $api = Start-Process dotnet `
           -ArgumentList "run --project RobsSpacePatrol.API --configuration Release --no-build --no-launch-profile" `
           -PassThru `
           -RedirectStandardOutput "$env:RUNNER_TEMP\api-output.log" `
           -RedirectStandardError "$env:RUNNER_TEMP\api-error.log"
           
-        $env:RUNNER_TRACKING_ID = ""
         Write-Host "Started API process: $($api.Id)"
         
     
