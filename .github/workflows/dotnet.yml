@@ -42,6 +42,53 @@ jobs:
       run: |
         dotnet tool install --global dotnet-ef --version "10.0.*"
         dotnet ef database update --project RobsSpacePatrol.API --startup-project RobsSpacePatrol.API --configuration Release
+    
+    - name: Start API
+      shell: pwsh
+      env:
+        ASPNETCORE_ENVIRONMENT: Production
+        ASPNETCORE_URLS: http://127.0.0.1:5067
+        ConnectionStrings__DefaultConnection: 'Server=(localdb)\MSSQLLocalDB;Database=RobsSpacePatrol_CI;Integrated Security=True;TrustServerCertificate=True;'
+      run: |
+        $api = Start-Process dotnet `
+          -ArgumentList "run --project RobsSpacePatrol.API --configuration Release --no-build --no-launch-profile" `
+          -PassThru `
+          -RedirectStandardOutput "$env:RUNNER_TEMP\api-output.log" `
+          -RedirectStandardError "$env:RUNNER_TEMP\api-error.log"
+    
+        Write-Host "Started API process: $($api.Id)"
+    
+        $ready = $false
+    
+        for ($i = 0; $i -lt 30; $i++) {
+          if ($api.HasExited) {
+            break
+          }
+    
+          try {
+            $response = Invoke-WebRequest `
+              -Uri "http://127.0.0.1:5067/api/login/register" `
+              -Method Get `
+              -SkipHttpErrorCheck `
+              -TimeoutSec 2
+    
+            # Any HTTP response means the server is accepting connections.
+            $ready = $true
+            break
+          }
+          catch {
+            Start-Sleep -Seconds 2
+          }
+        }
+    
+        if (-not $ready) {
+          Get-Content "$env:RUNNER_TEMP\api-output.log" -ErrorAction SilentlyContinue
+          Get-Content "$env:RUNNER_TEMP\api-error.log" -ErrorAction SilentlyContinue
+          throw "API failed to start."
+        }
+    
+        Write-Host "API is responding on port 5067."
+
 
     
     - name: Test API (independent tests)
