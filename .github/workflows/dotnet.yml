@@ -127,3 +127,6 @@ jobs:
 
     - name: Test CLI API Library (independent tests)
       run: dotnet run --project RobsSpacePatrol.CLI.API.Library.Tests --configuration Release -- -trait- "Category=Database"      
+    
+    - name: Stop API
+      cancel: api-server
