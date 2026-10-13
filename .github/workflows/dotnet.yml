@@ -32,4 +32,4 @@ jobs:
       run: dotnet run --project RobsSpacePatrol.API.Tests --configuration Release --no-build -- -trait- "Category=Database"
 
     - name: Test CLI API Library (independent tests)
-      run: dotnet run --project RobsSpacePatrol.CLI.API.Library.Tests --configuration Release --no-build -- -trait- "Category=Database"
+      run: dotnet run --project RobsSpacePatrol.CLI.API.Library.Tests --configuration Release -- -trait- "Category=Database"      
