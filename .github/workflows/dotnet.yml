@@ -34,7 +34,16 @@ jobs:
         sqllocaldb info
         sqllocaldb start MSSQLLocalDB
         sqllocaldb info MSSQLLocalDB
-      
+        
+    - name: Apply EF Core migrations
+      shell: pwsh
+      env:
+        ConnectionStrings__DefaultConnection: 'Server=(localdb)\MSSQLLocalDB;Database=RobsSpacePatrol_CI;Integrated Security=True;TrustServerCertificate=True;'
+      run: |
+        dotnet tool install --global dotnet-ef --version "10.0.*"
+        dotnet ef database update --project RobsSpacePatrol.API --startup-project RobsSpacePatrol.API --configuration Release
+
+    
     - name: Test API (independent tests)
       run: dotnet run --project RobsSpacePatrol.API.Tests --configuration Release --no-build -- -trait- "Category=Database"
 
