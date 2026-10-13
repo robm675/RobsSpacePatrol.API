@@ -88,7 +88,42 @@ jobs:
         }
     
         Write-Host "API is responding on port 5067."
+
+
+
+    - name: Check API availability
+      shell: pwsh
+      run: |
+        Write-Host "Checking API on port 5067..."
     
+        Get-NetTCPConnection -LocalPort 5067 -ErrorAction SilentlyContinue |
+          Format-Table LocalAddress, LocalPort, State, OwningProcess
+    
+        Get-Process dotnet -ErrorAction SilentlyContinue |
+          Select-Object Id, ProcessName, StartTime
+    
+        try {
+          $response = Invoke-WebRequest `
+            -Uri "http://127.0.0.1:5067/api/login/register" `
+            -Method Get `
+            -SkipHttpErrorCheck `
+            -TimeoutSec 5
+    
+          Write-Host "API responded with HTTP $($response.StatusCode)"
+        }
+        catch {
+          Write-Host "API is not reachable: $($_.Exception.Message)"
+        }
+    
+        Write-Host "API stdout:"
+        Get-Content "$env:RUNNER_TEMP\api-output.log" -ErrorAction SilentlyContinue
+    
+        Write-Host "API stderr:"
+        Get-Content "$env:RUNNER_TEMP\api-error.log" -ErrorAction SilentlyContinue
+
+
+
+        
     - name: Register CI test accounts
       shell: pwsh
       env:
