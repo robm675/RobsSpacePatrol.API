@@ -121,6 +121,9 @@ jobs:
     
           Write-Host "Registered $email successfully."
         }
+
+
+
     
     - name: Configure CI administrator
       shell: pwsh
@@ -207,6 +210,16 @@ jobs:
 
     - name: Test CLI API Library (independent tests)
       run: dotnet run --project RobsSpacePatrol.CLI.API.Library.Tests --configuration Release -- -trait- "Category=Database"      
+    
+    - name: Test CLI API Library (database tests)
+      shell: pwsh
+      env:
+        ROBSSPACEPATROL_API_TEST_URL: http://127.0.0.1:5067
+        ROBSSPACEPATROL_API_TEST_USER: ci-user@example.com
+        ROBSSPACEPATROL_API_TEST_ADMIN: ci-admin@example.com
+        ROBSSPACEPATROL_API_TEST_PASSWORD: ${{ secrets.CI_TEST_PASSWORD }}
+      run: |
+        dotnet run --project RobsSpacePatrol.CLI.API.Library.Tests --configuration Release -- -trait "Category=Database"
     
     - name: Stop API
       cancel: api-server
