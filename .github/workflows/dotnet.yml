@@ -27,6 +27,13 @@ jobs:
       
     - name: Build
       run: dotnet build RobsSpacePatrol.API.sln --configuration Release --no-restore
+
+    - name: Verify SQL Server LocalDB
+      shell: pwsh
+      run: |
+        sqllocaldb info
+        sqllocaldb start MSSQLLocalDB
+        sqllocaldb info MSSQLLocalDB
       
     - name: Test API (independent tests)
       run: dotnet run --project RobsSpacePatrol.API.Tests --configuration Release --no-build -- -trait- "Category=Database"
