@@ -29,4 +29,4 @@ jobs:
       run: dotnet build RobsSpacePatrol.API.sln --configuration Release --no-restore
       
     - name: Test
-      run: dotnet test RobsSpacePatrol.API.slnx --configuration Release --no-build --filter "Category!=Database" --verbosity normal      
+      run: dotnet test RobsSpacePatrol.API.slnx --configuration Release --no-build -- --filter-not-trait "Category=Database"
