@@ -9,6 +9,7 @@ using Xunit;
 
 namespace RobsSpacePatrol.CLI.API.Library.Tests;
 
+[Trait("Category", "Database")]
 public class SRS_Tests
 {
     [Fact]

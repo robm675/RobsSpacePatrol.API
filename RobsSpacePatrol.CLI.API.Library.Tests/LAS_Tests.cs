@@ -8,6 +8,7 @@ using Xunit;
 
 namespace RobsSpacePatrol.CLI.API.Library.Tests;
 
+[Trait("Category", "Database")]
 public class LAS_Tests
 {
     [Fact]

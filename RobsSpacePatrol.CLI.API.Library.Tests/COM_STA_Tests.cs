@@ -3,6 +3,7 @@ using Xunit;
 
 namespace RobsSpacePatrol.CLI.API.Library.Tests;
 
+[Trait("Category", "Database")]
 public class COM_STA_Tests
 {
     [Fact]
