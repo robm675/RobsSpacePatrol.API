@@ -149,7 +149,7 @@ public class GameController(IGameDBService gameService) : ApiControllerBase
             return BadRequest(ApiResponse<object>.BadRequest(GlobalVars.GameKeyNotFound));
         else
         {
-            var result = game.DAM();
+            var result = game.GetDamageReport();
             var dam = result.getResults<DAM>().Devices;
 
             if (result.eCommandResult == eCommandResult.Damaged)
