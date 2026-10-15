@@ -5,8 +5,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <OutputType>Exe</OutputType>
-    <AssemblyVersion>2026.10.9.9</AssemblyVersion>
-    <FileVersion>2026.10.9.9</FileVersion>
+    <AssemblyVersion>2026.10.15.14</AssemblyVersion>
+    <FileVersion>2026.10.15.14</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,8 +23,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RobsSpacePatrol.API\RobsSpacePatrol.API.csproj" />
-    <PackageReference Include="RobsSpacePatrol.DTO" Version="1.0.5-ci.38468431485.1" />
-    <PackageReference Include="RobsSpacePatrol.Library" Version="1.0.12-ci.38468431485.1" />
+    <PackageReference Include="RobsSpacePatrol.DTO" Version="1.0.7" />
+    <PackageReference Include="RobsSpacePatrol.Library" Version="1.0.15" />
   </ItemGroup>
 
 </Project>

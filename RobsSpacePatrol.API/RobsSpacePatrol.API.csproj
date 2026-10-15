@@ -4,8 +4,8 @@
     <TargetFramework>net10.0-windows7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <AssemblyVersion>2026.10.9.13</AssemblyVersion>
-    <FileVersion>2026.10.9.13</FileVersion>
+    <AssemblyVersion>2026.10.15.19</AssemblyVersion>
+    <FileVersion>2026.10.15.19</FileVersion>
     <UserSecretsId>3bfa7fb6-89dd-459e-98ac-d4832bbb80a7</UserSecretsId>
   </PropertyGroup>
 
@@ -21,8 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="RobsSpacePatrol.DTO" Version="1.0.5-ci.38468431485.1" />
-    <PackageReference Include="RobsSpacePatrol.Library" Version="1.0.12-ci.38468431485.1" />
+    <PackageReference Include="RobsSpacePatrol.DTO" Version="1.0.7" />
+    <PackageReference Include="RobsSpacePatrol.Library" Version="1.0.15" />
   </ItemGroup>
 
 </Project>
