@@ -9,7 +9,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="RobsSpacePatrol.DTO" Version="1.0.7-ci.38971944353.1" />
+		<PackageReference Include="RobsSpacePatrol.DTO" Version="1.0.7-ci.39065904734.1" />
 	</ItemGroup>
 
 </Project>
